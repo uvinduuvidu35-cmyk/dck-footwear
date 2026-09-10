@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCK FOOTWEAR | Official Store</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f9f9f9; color: #333; overflow-x: hidden; }
+
+        /* Top Bar */
+        .top-bar { background-color: #000; color: #fff; padding: 10px 50px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+        .top-bar a { color: #fff; text-decoration: none; margin-left: 15px; }
+
+        /* Header & Logo with Circular Gradient Border */
+        header { background: #fff; padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-circle-gradient {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b00, #b30000);
+            padding: 3px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(179, 0, 0, 0.25);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container:hover .logo-circle-gradient {
+            transform: scale(1.05);
+        }
+
+        .logo-circle-gradient img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #fff;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #000;
+        }
+        
+        /* Navigation */
+        nav ul { list-style: none; display: flex; }
+        nav ul li { position: relative; margin: 0 15px; }
+        nav ul li a { text-decoration: none; color: #222; font-weight: 600; font-size: 14px; padding: 10px 0; display: block; }
+        nav ul li a:hover { color: #e63946; }
+        
+        .dropdown { display: none; position: absolute; top: 100%; left: 0; background: #fff; min-width: 180px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 4px; padding: 10px 0; z-index: 100; }
+        .dropdown a { padding: 8px 20px; font-weight: 400; font-size: 13px; color: #555; display: block; text-decoration: none; }
+        .dropdown a:hover { background: #f5f5f5; color: #e63946; }
+        nav ul li:hover .dropdown { display: block; }
+
+        /* Header Icons & Auth Buttons */
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+
+        .auth-buttons { display: flex; align-items: center; gap: 10px; }
+        
+        .btn-auth-login {
+            color: #ff6b00;
+            border: 2px solid #ff6b00;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-auth-login:hover {
+            background-color: #ff6b00;
+            color: #fff;
+        }
+
+        .btn-auth-signup {
+            background: linear-gradient(135deg, #ff6b00, #b30000);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 8px rgba(179, 0, 0, 0.2);
+        }
+
+        .btn-auth-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(179, 0, 0, 0.3);
+        }
+
+        .header-icons { display: flex; align-items: center; }
+        .header-icons span { margin-left: 15px; font-size: 18px; cursor: pointer; position: relative; }
+        .badge { position: absolute; top: -8px; right: -10px; background: linear-gradient(135deg, #ff6b00, #b30000); color: #fff; font-size: 10px; padding: 2px 5px; border-radius: 50%; }
+
+        /* Hero Carousel Slider Section */
+        .hero-container { position: relative; width: 100%; overflow: hidden; padding: 30px 0; }
+        .slider { display: flex; transition: transform 0.6s ease-in-out; }
+        
+        .slide { 
+            flex: 0 0 70%; 
+            margin: 0 1.5%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 40px 60px; 
+            min-height: 420px; 
+            position: relative; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06); 
+            transition: all 0.5s ease; 
+            opacity: 0.5; 
+            transform: scale(0.92); 
+            overflow: hidden;
+            perspective: 1000px;
+        }
+        .slide.active { opacity: 1; transform: scale(1); }
+
+        .slide-1 { background: #f2e8dc; }
+        .slide-2 { background: #e8f0eb; }
+        .slide-3 { background: #fce8e8; }
+        .slide-4 { background: #e8f2f8; }
+
+        .bg-text-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -20%) scale(0.8);
+            font-size: 240px;
+            font-weight: 900;
+            color: rgba(0, 0, 0, 0.06);
+            letter-spacing: 15px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+            white-space: nowrap;
+            opacity: 0;
+            transition: all 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .slide.active .bg-text-overlay {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            transition-delay: 0.1s;
+        }
+
+        .hero-text { max-width: 50%; z-index: 2; position: relative; }
+        .hero-text span { text-transform: uppercase; letter-spacing: 1.5px; font-size: 13px; color: #ff6b00; font-weight: 700; }
+        .hero-text h1 { font-size: 38px; line-height: 1.2; margin: 15px 0; color: #111; word-wrap: break-word; }
+
+        .btn-gradient { 
+            background: linear-gradient(135deg, #ff6b00, #b30000); 
+            color: #fff; 
+            padding: 12px 28px; 
+            text-decoration: none; 
+            border-radius: 25px; 
+            font-weight: 600; 
+            display: inline-block; 
+            margin-top: 10px; 
+            border: none; 
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(179, 0, 0, 0.25);
+        }
+        .btn-gradient:hover { 
+            background: linear-gradient(135deg, #b30000, #ff6b00); 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(179, 0, 0, 0.35);
+        }
+
+        .slide-img { max-width: 45%; position: relative; display: flex; justify-content: center; align-items: center; z-index: 2; }
+        .slide-img img { width: 100%; max-height: 320px; object-fit: contain; filter: drop-shadow(0px 15px 10px rgba(0,0,0,0.2)); }
+
+        .animated-img { opacity: 0; transform: scale(0.3); }
+        .slide.active .animated-img { animation: shoeZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; animation-delay: 0.2s; }
+
+        @keyframes shoeZoom {
+            0% { opacity: 0; transform: scale(0.3) rotate(-10deg); }
+            70% { opacity: 1; transform: scale(1.08) rotate(2deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        .discount-badge-wrapper { position: absolute; top: -15px; right: -15px; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; z-index: 10; opacity: 0; transform: scale(0.5); transition: all 0.5s ease-out; }
+        .slide.active .discount-badge-wrapper { opacity: 1; transform: scale(1); transition-delay: 0.5s; }
+        .discount-badge-wrapper svg.rotating-text { position: absolute; width: 100%; height: 100%; animation: rotateText 12s linear infinite; }
+        .discount-badge-wrapper svg text { font-size: 10.5px; font-weight: 700; fill: #111; letter-spacing: 2px; text-transform: uppercase; }
+        .discount-center-text { font-size: 22px; font-weight: 900; color: #b30000; z-index: 2; line-height: 1; }
+
+        @keyframes rotateText {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Features Section */
+        .features { display: grid; grid-template-columns: repeat(4, 1fr); padding: 40px 50px; background: #fff; gap: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+        .feature-box { display: flex; align-items: center; gap: 15px; }
+        .feature-box i { font-size: 32px; color: #ff6b00; }
+        .feature-box i.fa-whatsapp { color: #25D366; }
+        .feature-box h4 { font-size: 15px; margin-bottom: 3px; }
+        .feature-box p { font-size: 12px; color: #777; }
+
+        /* Category Banner Section */
+        .category-banners { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 25px; padding: 50px; }
+        .category-card { 
+            background: #fdfbf7; 
+            border-radius: 16px; 
+            padding: 30px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            align-items: center; 
+            text-align: center; 
+            min-height: 420px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+            transition: transform 0.3s ease;
+        }
+        .category-card.bg-light-orange { background: #fef5ed; }
+        .category-card.bg-light-yellow { background: #fefae0; }
+        
+        .category-content { z-index: 2; width: 100%; margin-bottom: 15px; }
+        .category-content h3 { font-size: 22px; color: #111; margin-bottom: 8px; font-weight: 800; }
+        .category-content p { font-size: 12px; color: #666; margin-bottom: 18px; line-height: 1.4; }
+        
+        .category-image-wrapper { 
+            width: 100%; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
+        .category-image-wrapper img { 
+            max-width: 100%; 
+            height: auto; 
+            max-height: 200px; 
+            object-fit: contain; 
+            transition: transform 0.3s ease; 
+            filter: drop-shadow(0 10px 8px rgba(0,0,0,0.15));
+        }
+        .category-card:hover .category-image-wrapper img { transform: scale(1.08) rotate(-3deg); }
+
+        .layout-top-text { flex-direction: column; }
+        .layout-bottom-text { flex-direction: column-reverse; }
+
+        /* Product Grid & Filters */
+        .section-title { text-align: center; font-size: 28px; margin: 40px 0 20px 0; }
+        .filter-tabs { display: flex; justify-content: center; gap: 12px; margin-bottom: 30px; }
+        .filter-tabs button, .filter-tabs a button { border: 1px solid #ddd; background: #fff; padding: 8px 22px; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.3s; }
+        .filter-tabs button.active, .filter-tabs button:hover { background: linear-gradient(135deg, #ff6b00, #b30000); color: #fff; border-color: transparent; }
+
+        .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; padding: 0 50px 50px 50px; }
+        .product-card { background: #fff; border-radius: 8px; padding: 20px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.04); text-align: center; transition: 0.3s; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+        .product-card img { width: 100%; height: 180px; object-fit: contain; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); }
+        .product-card h4 { font-size: 15px; margin: 12px 0 6px 0; }
+        .price { color: #b30000; font-weight: bold; font-size: 15px; }
+        .p-discount { position: absolute; top: 15px; left: 15px; background: linear-gradient(135deg, #ff6b00, #b30000); color: #fff; font-size: 11px; font-weight: bold; padding: 3px 8px; border-radius: 4px; }
+
+        /* Countdown */
+        .countdown-timer { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; }
+        .timer-box { background: linear-gradient(135deg, #ff6b00, #b30000); color: #fff; padding: 10px 15px; border-radius: 6px; text-align: center; min-width: 65px; }
+        .timer-box .num { font-size: 20px; font-weight: bold; display: block; }
+        .timer-box .label { font-size: 10px; text-transform: uppercase; }
+
+        /* Footer */
+        footer { background: #000; color: #fff; padding: 50px; margin-top: 50px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 30px; }
+        .footer-col h4 { margin-bottom: 15px; font-size: 16px; color: #fff; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 8px; }
+        .footer-col ul li a { text-decoration: none; color: #aaa; font-size: 13px; }
+        .footer-col ul li a:hover { color: #ff6b00; }
+        .footer-bottom { text-align: center; border-top: 1px solid #333; padding-top: 20px; color: #aaa; font-size: 13px; margin-top: 30px; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div><i class="fa-solid fa-phone"></i> +94 11 456 7890 | support@dckfootwear.com</div>
+        <div><a href="#">Track Order</a></div>
+    </div>
+
+    <header>
+        <!-- Logo With Gradient Circular Border -->
+        <a href="index.html" class="logo-container">
+            <div class="logo-circle-gradient">
+                <img src="logo.png" alt="DCK Logo">
+            </div>
+            <div class="logo-text">DCK FOOTWEAR</div>
+        </a>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">HOME <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
+                    <div class="dropdown">
+                        <!-- Navigation Dropdown Links -->
+                        <a href="mmen.html">Men</a>
+                        <a href="dck women.html">Women</a>
+                        <a href="mmen.html">Boys</a>
+                        <a href="dck women.html">Girls</a>
+                        <a href="kids.html">Kids</a>
+                    </div>
+                </li>
+                <li><a href="#">SHOP</a></li>
+                <li><a href="#">NEW ARRIVALS</a></li>
+                <li><a href="#">COLLECTIONS</a></li>
+                <li><a href="#">CONTACT US</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-actions">
+            <!-- Login and Sign Up Buttons -->
+            <div class="auth-buttons">
+                <a href="#" class="btn-auth-login">Login</a>
+                <a href="#" class="btn-auth-signup">Sign Up</a>
+            </div>
+
+            <div class="header-icons">
+                <span><i class="fa-solid fa-magnifying-glass"></i></span>
+                <span><i class="fa-regular fa-heart"></i><div class="badge">0</div></span>
+                <span><i class="fa-solid fa-bag-shopping"></i><div class="badge">2</div></span>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-container">
+        <div class="slider" id="shoeSlider">
+            <div class="slide slide-1 active">
+                <div class="bg-text-overlay">DCK</div>
+                <div class="hero-text">
+                    <span>Nike Air Collection</span>
+                    <h1>Nike Air Running Spikes</h1>
+                    <a href="mmen.html" class="btn-gradient">Explore All &rarr;</a>
+                </div>
+                <div class="slide-img">
+                    <img src="https://cdn.phototourl.com/free/2026-09-08-4aef92de-9ec9-4023-82c8-2fa5e3744e40.png" alt="Shoe 1" class="animated-img">
+                    <div class="discount-badge-wrapper">
+                        <svg class="rotating-text" viewBox="0 0 100 100">
+                            <path id="circlePath1" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none" />
+                            <text><textPath href="#circlePath1">• 15% OFF • 15% SAVE • 15% SAVE</textPath></text>
+                        </svg>
+                        <div class="discount-center-text">26%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide slide-2">
+                <div class="bg-text-overlay">DCK</div>
+                <div class="hero-text">
+                    <span>Adidas Series</span>
+                    <h1>Adidas Stan Running Spikes</h1>
+                    <a href="mmen.html" class="btn-gradient">Explore All &rarr;</a>
+                </div>
+                <div class="slide-img">
+                    <img src="https://cdn.phototourl.com/free/2026-09-04-ddae290f-351d-4731-936b-b316f6bfe177.png" alt="Shoe 2" class="animated-img">
+                    <div class="discount-badge-wrapper">
+                        <svg class="rotating-text" viewBox="0 0 100 100">
+                            <path id="circlePath2" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none" />
+                            <text><textPath href="#circlePath2">• 20% OFF • 20% SAVE • 20% SAVE</textPath></text>
+                        </svg>
+                        <div class="discount-center-text">20%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide slide-3">
+                <div class="bg-text-overlay">DCK</div>
+                <div class="hero-text">
+                    <span>Nike Mag Series</span>
+                    <h1>Nike Mag Sneakers Shoe</h1>
+                    <a href="mmen.html" class="btn-gradient">Explore All &rarr;</a>
+                </div>
+                <div class="slide-img">
+                    <img src="https://cdn.phototourl.com/free/2026-09-04-ddae290f-351d-4731-936b-b316f6bfe177.png" alt="Shoe 3" class="animated-img">
+                    <div class="discount-badge-wrapper">
+                        <svg class="rotating-text" viewBox="0 0 100 100">
+                            <path id="circlePath3" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none" />
+                            <text><textPath href="#circlePath3">• 30% OFF • 30% SAVE • 30% SAVE</textPath></text>
+                        </svg>
+                        <div class="discount-center-text">30%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide slide-4">
+                <div class="bg-text-overlay">DCK</div>
+                <div class="hero-text">
+                    <span>Exclusive Party Wear</span>
+                    <h1>Unmatched Luxury Heels</h1>
+                    <a href="dck women.html" class="btn-gradient">Explore All &rarr;</a>
+                </div>
+                <div class="slide-img">
+                    <img src="https://cdn.phototourl.com/free/2026-09-04-ddae290f-351d-4731-936b-b316f6bfe177.png" alt="Shoe 4" class="animated-img">
+                    <div class="discount-badge-wrapper">
+                        <svg class="rotating-text" viewBox="0 0 100 100">
+                            <path id="circlePath4" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none" />
+                            <text><textPath href="#circlePath4">• 10% OFF • 10% SAVE • 10% SAVE</textPath></text>
+                        </svg>
+                        <div class="discount-center-text">10%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="feature-box"><i class="fa-solid fa-hand-holding-dollar"></i><div><h4>Cash on Delivery</h4><p>For orders over LKR 1,000</p></div></div>
+        <div class="feature-box"><i class="fa-solid fa-rotate-left"></i><div><h4>Money Back Guarantee</h4><p>Back guarantee in 7 days</p></div></div>
+        <div class="feature-box"><i class="fa-solid fa-tags"></i><div><h4>Membership Offer</h4><p>Huge order discount deals</p></div></div>
+        <div class="feature-box"><i class="fa-brands fa-whatsapp"></i><div><h4>WhatsApp Support</h4><p>Support online 24/7</p></div></div>
+    </section>
+
+    <!-- Category Banners Section -->
+    <section class="category-banners">
+        <div class="category-card bg-light-orange layout-top-text">
+            <div class="category-content">
+                <h3>Men's Collections</h3>
+                <p>Large stores with multiple locations offering a wide variety of footwear for men's.</p>
+                <!-- Men's Collection Link -->
+                <a href="mmen.html" class="btn-gradient">Explore All &rarr;</a>
+            </div>
+            <div class="category-image-wrapper">
+                <img src="https://via.placeholder.com/220x160" alt="Men's Shoe">
+            </div>
+        </div>
+
+        <div class="category-card layout-bottom-text">
+            <div class="category-content">
+                <h3>Women's Collections</h3>
+                <p>Large stores with multiple locations offering a wide variety of footwear for Women's.</p>
+                <a href="dck women.html" class="btn-gradient">Explore All &rarr;</a>
+            </div>
+            <div class="category-image-wrapper">
+                <img src="https://via.placeholder.com/220x160" alt="Women's Shoe">
+            </div>
+        </div>
+
+        <div class="category-card bg-light-yellow layout-top-text">
+            <div class="category-content">
+                <h3>Girls' Collections</h3>
+                <p>Large stores with multiple locations offering a wide variety of footwear for Girls'.</p>
+                <a href="dck women.html" class="btn-gradient">Explore All &rarr;</a>
+            </div>
+            <div class="category-image-wrapper">
+                <img src="https://via.placeholder.com/220x160" alt="Girls' Shoe">
+            </div>
+        </div>
+    </section>
+
+    <h2 class="section-title">Best Seller Products</h2>
+    <div class="filter-tabs">
+        <button class="active">All</button>
+        <button>Nike</button>
+        <button>Adidas</button>
+        <!-- Men's Tab Link -->
+        <a href="mmen.html" style="text-decoration: none;"><button>Men's</button></a>
+        <a href="dck women.html" style="text-decoration: none;"><button>Women's</button></a>
+    </div>
+
+    <section class="product-grid">
+        <div class="product-card"><div class="p-discount">-15%</div><img src="https://via.placeholder.com/200" alt="Product"><h4>Nike Renew Serenity Run</h4><div class="price">Rs. 7,500 LKR</div></div>
+        <div class="product-card"><div class="p-discount">-10%</div><img src="https://via.placeholder.com/200" alt="Product"><h4>Nike Renew Color Shoes</h4><div class="price">Rs. 8,200 LKR</div></div>
+        <div class="product-card"><img src="https://via.placeholder.com/200" alt="Product"><h4>Adidas Plastic Rebar Shoes</h4><div class="price">Rs. 9,500 LKR</div></div>
+        <div class="product-card"><img src="https://via.placeholder.com/200" alt="Product"><h4>Nike Flex Run 2021</h4><div class="price">Rs. 10,500 LKR</div></div>
+    </section>
+
+    <div class="countdown-header" style="text-align:center;">
+        <h2 class="section-title">Today's Best Deals</h2>
+        <div class="countdown-timer">
+            <div class="timer-box"><span class="num">173</span><span class="label">Days</span></div>
+            <div class="timer-box"><span class="num">21</span><span class="label">Hours</span></div>
+            <div class="timer-box"><span class="num">13</span><span class="label">Mins</span></div>
+            <div class="timer-box"><span class="num">09</span><span class="label">Secs</span></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <a href="dck .index.html" class="logo-container" style="margin-bottom: 15px;">
+                    <div class="logo-circle-gradient">
+                        <img src="logo.png" alt="DCK Logo">
+                    </div>
+                    <div class="logo-text" style="color: #fff;">DCK FOOTWEAR</div>
+                </a>
+                <p style="color:#aaa; font-size:13px; line-height:1.6; margin-top: 15px;">DCK FOOTWEAR is a leading online store specializing in top-quality footwear for all ages.</p>
+            </div>
+            <div class="footer-col"><h4>About Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
+            <div class="footer-col"><h4>Customer Support</h4><ul><li><a href="#">Help Center</a></li><li><a href="#">Track Order</a></li></ul></div>
+            <div class="footer-col"><h4>My Account</h4><ul><li><a href="#">Login/Register</a></li><li><a href="#">Wishlist</a></li></ul></div>
+        </div>
+        <div class="footer-bottom">&copy; 2026 DCK FOOTWEAR. All rights reserved.</div>
+    </footer>
+
+    <script>
+        const slider = document.getElementById('shoeSlider');
+        const slides = document.querySelectorAll('.slide');
+        let index = 0;
+
+        function updateSlider() {
+            slides.forEach((slide) => {
+                slide.classList.remove('active');
+            });
+
+            const slideWidth = 73; 
+            const offset = (100 - 70) / 2 - 3; 
+            const translateX = -(index * slideWidth) + offset;
+            
+            slider.style.transform = `translateX(${translateX}%)`;
+            slides[index].classList.add('active');
+        }
+
+        setInterval(() => {
+            index = (index + 1) % slides.length;
+            updateSlider();
+        }, 3500);
+
+        updateSlider();
+    </script>
+</body>
+</html>
